@@ -1,4 +1,4 @@
-var request = require('request');
+const request = require('request');
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
@@ -16,7 +16,7 @@ const connection = mysql.createConnection({
   standard_input.setEncoding('utf-8');
   console.log("Digite o Cep:   ")
   standard_input.on('data', function(data) {
-     var param =  data
+     let param =  data
      request(`http://cep.bldstools.com/?cep=${param}`, { json: true }, (err, res, body) => {
       if (err) { return console.log(err); }
       //console.log(body);
@@ -26,7 +26,7 @@ const connection = mysql.createConnection({
         let json = {code : body.code, message: body.message}
         json = JSON.stringify(json);
         let values = [param, nome, body.result.logradouro, body.result.bairro, body.result.uf, body.result.localidade, json];
-        console.log(values , "valores a serem inseridos");
+        //console.log(values , "valores a serem inseridos");
         connection.query(stmt, values, (err, results, fields) => {
           if (err) {
             return console.error(err.message);
